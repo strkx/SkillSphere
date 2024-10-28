@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -47,24 +49,18 @@ public class AuthController {
 
     // User Login Endpoint
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody UserLoginRequest loginRequest) {
-        try {
-            User user = userRepository.findByUsername(loginRequest.getUsername())
-                    .orElseThrow(() -> new RuntimeException("User not found"));
-
-            // Check password using BCrypt
-            boolean passwordMatch = passwordEncoder.matches(loginRequest.getPassword(), user.getPassword());
-
-            if (!passwordMatch) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
-            }
-
-            return ResponseEntity.ok("Login successful");
-
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during login");
+    public ResponseEntity<?> loginUser(@RequestBody UserLoginRequest loginRequest) {
+        Optional<User> userOptional = userRepository.findByUsername(loginRequest.getUsername());
+        if (userOptional.isPresent() && passwordEncoder.matches(loginRequest.getPassword(), userOptional.get().getPassword())) {
+            User user = userOptional.get();
+            // Include the userId in the response
+            Map<String, Object> response = new HashMap<>();
+            response.put("userId", user.getId()); // Ensure getId() returns the user ID
+            response.put("message", "Login successful");
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
+
 }

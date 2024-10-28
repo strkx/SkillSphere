@@ -23,6 +23,7 @@ public class Task {
 
     private String solutionText;
 
+
     public String getSolutionText() {
         return solutionText;
     }

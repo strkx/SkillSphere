@@ -6,6 +6,7 @@ import com.SkillSphere.micro_task_platform.entity.User;
 import com.SkillSphere.micro_task_platform.repository.SkillRepository;
 import com.SkillSphere.micro_task_platform.repository.TaskRepository;
 import com.SkillSphere.micro_task_platform.repository.UserRepository;
+import com.SkillSphere.micro_task_platform.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +39,10 @@ public class TaskController {
 
     @Autowired
     private SkillRepository skillRepository;
+
+    @Autowired
+    private TaskService taskService;
+
 
     // Folder where files will be stored
     private final String FILE_STORAGE_LOCATION = "uploads/";
@@ -113,8 +119,6 @@ public class TaskController {
     }
 
 
-
-
     // Implement file storage logic
     private String storeFile(MultipartFile file) {
         try {
@@ -181,17 +185,17 @@ public class TaskController {
         taskRepository.save(task);
         return ResponseEntity.ok(task);
     }
-//    // Endpoint to get tasks assigned to a specific user
-@GetMapping("/user/{userId}")
-public ResponseEntity<List<Task>> getTasksByUserId(@PathVariable String userId) {
-    Optional<User> user = userRepository.findByIdWithTasks(userId);
-    if (user.isPresent() && !user.get().getTasksAssigned().isEmpty()) {
-        return ResponseEntity.ok(user.get().getTasksAssigned());
-    } else {
-        return ResponseEntity.noContent().build();
-    }
-}
 
+    //    // Endpoint to get tasks assigned to a specific user
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Task>> getTasksByUserId(@PathVariable String userId) {
+        Optional<User> user = userRepository.findByIdWithTasks(userId);
+        if (user.isPresent() && !user.get().getTasksAssigned().isEmpty()) {
+            return ResponseEntity.ok(user.get().getTasksAssigned());
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
 
 
     // Remove a skill from a task
@@ -300,6 +304,19 @@ public ResponseEntity<List<Task>> getTasksByUserId(@PathVariable String userId) 
             }
         } catch (MalformedURLException e) {
             throw new RuntimeException("Error while reading file: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/{taskId}/solution")
+    public ResponseEntity<String> submitSolution(
+            @PathVariable String taskId,
+            @RequestParam("solutionText") String solutionText,
+            @RequestParam(value = "solutionFile", required = false) MultipartFile solutionFile) {
+        try {
+            taskService.saveSolution(taskId, solutionText, solutionFile);
+            return ResponseEntity.ok("Solution submitted successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Failed to submit solution: " + e.getMessage());
         }
     }
 }

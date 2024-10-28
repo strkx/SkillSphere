@@ -1,0 +1,98 @@
+.create-task-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.create-task-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.create-task-container label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.create-task-container input[type="text"],
+.create-task-container select,
+.create-task-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.create-task-container select[multiple] {
+    height: 100px;
+    overflow-y: auto;
+}
+
+.create-task-container textarea {
+    height: 150px;
+    resize: none;
+}
+
+.create-task-container input[type="file"] {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.create-task-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.create-task-container button:hover {
+    background-color: #0056b3;
+}
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Adds space between the buttons */
+    margin-top: 20px;
+}
+
+.button-group button {
+    flex: 1; /* Makes both buttons equal width */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-group .create-task-button {
+    background-color: #007bff;
+    color: white;
+}
+
+.button-group .create-task-button:hover {
+    background-color: #0056b3;
+}
+
+.button-group .close-task-button {
+    background-color: #d9534f;
+    color: white;
+}
+
+.button-group .close-task-button:hover {
+    background-color: #c9302c;
+}
+

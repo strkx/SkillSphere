@@ -1,0 +1,141 @@
+/* Container for the entire dashboard */
+/* Navbar styling */
+.navbar {
+    background-color: #2980b9;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-size: 16px;
+}
+
+.navbar .logo {
+    font-weight: bold;
+    font-size: 18px;
+    color: #fff;
+}
+
+.navbar .nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.navbar .nav-links a:hover {
+    color: #ddd;
+}
+
+/* Container for the entire dashboard */
+.dashboard-container {
+    max-width: 800px;
+    margin: 20px auto;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* Other existing styles here */
+.section {
+    background: rgba(245, 245, 245, 0.95);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* The rest of your CSS remains unchanged */
+/* Header */
+.dashboard-container h2 {
+    text-align: center;
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+/* Profile, Tasks, and Recommended Tasks Sections */
+
+
+/* Profile Section Titles */
+.profile-section h3, .tasks-section h3, .recommended-tasks-section h3 {
+    color: #2980b9;
+    font-size: 18px;
+    border-bottom: 2px solid #2980b9;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+/* Profile Section Content */
+.profile-section ul {
+    padding-left: 20px;
+    list-style-type: disc;
+    color: #34495e;
+    font-size: 15px;
+    max-height: 150px; /* Limits the profile section height */
+    overflow-y: auto; /* Enable scrolling within the profile section */
+    margin-bottom: 10px;
+}
+
+.profile-section ul li {
+    margin-bottom: 5px;
+}
+
+/* Task Section Content */
+.tasks-section, .recommended-tasks-section {
+    max-height: 250px; /* Limits the height of tasks sections */
+    overflow-y: auto; /* Enable scrolling within the tasks section */
+}
+
+.task, .recommended-task {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+}
+
+.task h4, .recommended-task h4 {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 16px;
+}
+
+/* Button Styling */
+.task button, .recommended-task button {
+    background-color: #2980b9;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.task button:hover, .recommended-task button:hover {
+    background-color: #1c5985;
+}
+
+.create-task-button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.create-task-button:hover {
+    background-color: #218838;
+}

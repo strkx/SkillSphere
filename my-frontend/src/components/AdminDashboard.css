@@ -1,0 +1,26 @@
+.admin-dashboard {
+    font-family: Arial, sans-serif;
+}
+
+.admin-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    background-color: #2c3e50;
+}
+
+.admin-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+.admin-nav a:hover {
+    background-color: #1abc9c;
+    border-radius: 5px;
+}
+
+.admin-content {
+    padding: 20px;
+}

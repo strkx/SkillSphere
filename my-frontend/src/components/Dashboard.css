@@ -139,3 +139,23 @@
 .create-task-button:hover {
     background-color: #218838;
 }
+/* CSS for the Logout Button */
+.logout-button {
+    background-color: #007bff; /* Adjust color to match your theme */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    display: inline-block;
+    text-align: center;
+}
+
+.logout-button:hover {
+    background-color: #0056b3; /* Slightly darker shade for hover effect */
+}
+

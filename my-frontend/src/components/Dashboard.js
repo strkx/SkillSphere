@@ -48,6 +48,12 @@ const Dashboard = () => {
             alert("Failed to assign task.");
         }
     };
+     const handleLogout = () => {
+            // Clear user context or any authentication tokens
+            setUserId(null); // clear user ID from context
+            localStorage.removeItem('authToken'); // if you’re using local storage for token
+            navigate('/login'); // redirect to login page
+        };
 
     // Handle solving task - navigate to SolveTask component with userId in state
     const handleSolveTask = (taskId) => {
@@ -87,6 +93,7 @@ const Dashboard = () => {
                 )}
             </div>
 
+
             <div className="recommended-tasks-section section">
                 <h3>Recommended Tasks</h3>
                 {recommendedResources.length > 0 ? (
@@ -103,6 +110,10 @@ const Dashboard = () => {
             </div>
 
             {isTaskCreatorOpen && <CreateTask onTaskCreated={closeTaskCreator} onClose={closeTaskCreator} />}
+            <div>
+                        {/* other components */}
+                        <button className="logout-button" onClick={handleLogout}>Logout</button>
+                    </div>
         </div>
     );
 };

@@ -12,6 +12,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -319,4 +317,59 @@ public class TaskController {
             return ResponseEntity.status(500).body("Failed to submit solution: " + e.getMessage());
         }
     }
+    @GetMapping("/{taskId}/solution-file")
+    public ResponseEntity<Resource> downloadSolutionFile(@PathVariable String taskId) {
+        try {
+            // Fetch task details from the database to get the solution file URL
+            Task task = taskRepository.findById(taskId)
+                    .orElseThrow(() -> new RuntimeException("Task not found"));
+
+            // Ensure solution file URL is set
+            String solutionFilePath = task.getSolutionFileUrl();
+            if (solutionFilePath == null || solutionFilePath.isEmpty()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            // Load the file as a resource
+            Path filePath = Paths.get(solutionFilePath);
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                return ResponseEntity.ok()
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+                        .body(resource);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    // Inside TaskController
+
+    // Endpoint to get detailed information for a specific task
+    @GetMapping("/{taskId}/details")
+    public ResponseEntity<?> getTaskDetails(@PathVariable String taskId) {
+        Optional<Task> taskOptional = taskRepository.findById(taskId);
+        if (taskOptional.isPresent()) {
+            Task task = taskOptional.get();
+            Map<String, Object> taskDetails = new HashMap<>();
+            taskDetails.put("title", task.getTitle());
+            taskDetails.put("description", task.getDescription());
+            taskDetails.put("difficulty", task.getDifficulty());
+            taskDetails.put("status", task.getStatus());
+
+            if (task.getSolutionText() != null) {
+                taskDetails.put("solutionText", task.getSolutionText());
+                taskDetails.put("solutionFileUrl", task.getSolutionFileUrl());
+            }
+
+            return ResponseEntity.ok(taskDetails);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found");
+    }
+
+
 }

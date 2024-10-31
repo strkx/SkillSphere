@@ -17,9 +17,10 @@ const Welcome = () => {
                     <Link to="/login">
                         <button className="welcome-button">Login</button>
                     </Link>
-                    <button className="welcome-button disabled" disabled>
-                        Admin Login (Coming Soon)
-                    </button>
+                    <Link to="/admin">
+                          <button className="admin-button">Admin Login</button>
+                    </Link>
+
                 </div>
             </div>
         </div>
